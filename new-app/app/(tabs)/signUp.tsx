@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: "25%",
+    width: "70%",
     padding: 10,
     marginBottom: 10,
     borderWidth: 2,
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
   },
   button: {
     backgroundColor: "#FF5D5D",
-    padding: 10,
+    padding: 20,
     borderRadius: 5,
     marginTop: 10,
   },
