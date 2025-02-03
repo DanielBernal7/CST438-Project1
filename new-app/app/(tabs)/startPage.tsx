@@ -1,7 +1,15 @@
 import React from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import * as SQLite from 'expo-sqlite';
 
+export const UserContext = React.createContext(null);
+const InitializeDatabase = async() => {
+    const db = await SQLite.openDatabaseAsync('monDatabase.db');
+    await db.execAsync(
+      'CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, username TEXT NOT NULL, password TEXT NOT NULL);'
+    );
 
+}
 //Here we are actually craeting the StartPage component
 const StartPage = () => {
     // These function are meant to handle the press of buttons. They are just placeholders for now
