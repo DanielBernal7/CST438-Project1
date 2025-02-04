@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-
 export default function SignUp() {
   const [username, setName] = useState("");
   const [password, setPassword] = useState("");
-
+  
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Sign Up Brah</Text>
