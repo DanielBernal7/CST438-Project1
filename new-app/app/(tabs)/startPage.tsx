@@ -1,12 +1,31 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { useRouter } from 'expo-router';
+import * as SQLite from 'expo-sqlite';
+
+// export const UserContext = React.createContext(null);
 
 
 //Here we are actually craeting the StartPage component
 const StartPage = () => {
     const router = useRouter();
 
+    //This is a function that is meant to initialize the database. It is just a placeholder for now
+    
+    useEffect(() => {
+    const  InitializeDatabase = async() => {
+        const db = SQLite.openDatabaseSync('pokeDatabase.db');
+        await db.execAsync(`
+            PRAGMA journal_mode = WAL;
+            CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY NOT NULL, value TEXT NOT NULL, intValue INTEGER);
+            INSERT INTO test (value, intValue) VALUES ('Hello', 100);`);
+            
+    };
+    InitializeDatabase();
+}, []);
+    
+    // }
     // These function are meant to handle the press of buttons. They are just placeholders for now
     const handleExplorePress = () => {
         router.push('/explorePokemon');
