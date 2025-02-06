@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import { View, Text, StyleSheet, FlatList } from "react-native";
-import * as SQLite from 'expo-sqlite';
+import * as SQLite from "expo-sqlite";
+import { useFocusEffect } from "@react-navigation/native";
 
 type User = {
   id: number;
@@ -10,7 +11,8 @@ type User = {
 
 const User = () => {
   const [users, setUsers] = useState<User[]>([]);
-  const db = SQLite.openDatabaseSync('pokeDatabase.db');
+  const db = SQLite.openDatabaseSync("pokeDatabase.db");
+
   const fetchUsers = () => {
     try {
       const result = db.getAllSync("SELECT * FROM users;");
@@ -21,9 +23,11 @@ const User = () => {
     }
   };
 
-  useEffect(() => {
-    fetchUsers();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchUsers();
+    }, [])
+  );
 
   return (
     <View style={styles.container}>
