@@ -1,11 +1,34 @@
-import React from 'react';
+
+import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { useRouter } from 'expo-router';
+import * as SQLite from 'expo-sqlite';
+
+// export const UserContext = React.createContext(null);
 
 
 //Here we are actually craeting the StartPage component
 const StartPage = () => {
+    const router = useRouter();
+
+    //This is a function that is meant to initialize the database. It is just a placeholder for now
+    
+    useEffect(() => {
+    const  InitializeDatabase = async() => {
+        const db = SQLite.openDatabaseSync('pokeDatabase.db');
+        await db.execAsync(`
+            PRAGMA journal_mode = WAL;
+            CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY NOT NULL, value TEXT NOT NULL, intValue INTEGER);
+            INSERT INTO test (value, intValue) VALUES ('Hello', 100);`);
+            
+    };
+    InitializeDatabase();
+}, []);
+    
+    // }
     // These function are meant to handle the press of buttons. They are just placeholders for now
     const handleExplorePress = () => {
+        router.push('/explorePokemon');
         console.log('Explore pressed');
         // I intent to add navigation here later, this is just a placeholder
     };
@@ -91,8 +114,10 @@ const styles = StyleSheet.create({
         backgroundColor: '#FF5D5D',
         paddingVertical: 15,
         paddingHorizontal: 30,
-        borderRadius: 25,
+        borderRadius: 10,
+        borderColor: 'black',
         shadowColor: '#000',
+        borderWidth: 1.5,
         shadowOffset: {
             width: 0,
             height: 2,
@@ -105,6 +130,8 @@ const styles = StyleSheet.create({
         color: 'white',
         fontSize: 18,
         fontWeight: '600',
+        textShadowColor: 'black',
+        textShadowOffset:{width: 2, height: 2},
         textAlign: 'center',
     },
 });
