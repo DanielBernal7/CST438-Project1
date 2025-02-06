@@ -1,36 +1,82 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-export default function SignUp() {
-  const [username, setName] = useState("");
+import * as SQLite from 'expo-sqlite';
+
+const SignUp = () => {
+  const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  
+  const [errorMessage, setErrorMessage] = useState("");
+
+  //database stufs
+  const db = SQLite.openDatabaseSync('pokeDatabase.db');
+  const initializeDatabase = () => {
+    db.execAsync(`
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
+      );
+    `);
+  };
+
+  useEffect(() => {
+    initializeDatabase();
+  }, []);
+
+  const handleSignUp = () => {
+    if (!username || !password) {
+      setErrorMessage("Fill out both brah");
+      return;
+    }
+
+    try {
+      const result = db.getAllSync(`SELECT * FROM users WHERE username = ?`, [username]);
+
+      if (result.length > 0) {
+        setErrorMessage("This name is already being used dummy!");
+      } else {
+        db.execAsync(`
+          INSERT INTO users (username, password) 
+          VALUES ('${username}', '${password}');
+        `);
+        setErrorMessage("");
+        alert("sucessfully signed up!!!");
+      }
+    } catch (error) {
+      setErrorMessage("There was an error brah");
+      console.error("THIS COULD NOT BE INSERTED IN THE DATABASE", error);
+    }
+  };
+
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Sign Up Brah</Text>
-      
+      <Text style={styles.title}>Sign Up</Text>
+
+      {errorMessage ? <Text style={styles.errorText}>{errorMessage}</Text> : null}
+
       <TextInput
         style={styles.input}
-        placeholder="Usssssaahhhhhname"
+        placeholder="Username"
         placeholderTextColor="#aaa"
         value={username}
-        onChangeText={setName}
+        onChangeText={setUsername}
       />
-      
+
       <TextInput
         style={styles.input}
-        placeholder="passworddddd"
-         placeholderTextColor="#aaa"
+        placeholder="Password"
+        placeholderTextColor="#aaa"
         secureTextEntry
         value={password}
         onChangeText={setPassword}
       />
 
-      <TouchableOpacity style={styles.button}>
-        <Text style={styles.buttonText}>Sign Up NOW!!!</Text>
+      <TouchableOpacity style={styles.button} onPress={handleSignUp}>
+        <Text style={styles.buttonText}>Sign Up!!!</Text>
       </TouchableOpacity>
     </View>
   );
-}
+};
 
 const styles = StyleSheet.create({
   container: {
@@ -45,7 +91,7 @@ const styles = StyleSheet.create({
     marginBottom: 20,
   },
   input: {
-    width: "25%",
+    width: "80%",  
     padding: 10,
     marginBottom: 10,
     borderWidth: 2,
@@ -64,4 +110,11 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontWeight: "bold",
   },
+  errorText: {
+    color: "red",
+    fontSize: 14,
+    marginBottom: 10,
+  },
 });
+
+export default SignUp;
