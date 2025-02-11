@@ -13,5 +13,5 @@
     "**/*.tsx",
     ".expo/types/**/*.ts",
     "expo-env.d.ts"
-, "app/explorePokemon.tsx"  ]
+, "app/explorePokemon.tsx", "app/searchPokemon.tsx"  ]
 }
