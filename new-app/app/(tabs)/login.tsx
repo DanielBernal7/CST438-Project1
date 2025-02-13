@@ -53,6 +53,7 @@ export default function Login({ navigation }: { navigation: any }) {
       if (result && result.length > 0) {
         setErrorMessage("");
         alert("Login successful!");
+        router.push("/startPage");
       } else {
         setErrorMessage("Invalid username or password.");
       }
