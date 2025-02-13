@@ -13,22 +13,7 @@ const StartPage = () => {
 
     //This is a function that is meant to initialize the database. It is just a placeholder for now
     
-    useEffect(() => {
-    const  InitializeDatabase = async() => {
-        const db = SQLite.openDatabaseSync('pokeDatabase.db');
-        await db.execAsync(`CREATE TABLE IF NOT EXISTS users (
-        id INTEGER PRIMARY KEY AUTOINCREMENT,
-        username TEXT UNIQUE NOT NULL,
-        password TEXT NOT NULL
-        );
-        CREATE TABLE IF NOT EXISTS party (
-        partyid INTEGER NOT NULL, mon1 INTEGER, mon2 INTEGER, mon3 INTEGER, mon4 INTEGER, mon5 INTEGER, mon6 INTEGER);    
-        `
-        );
-            
-    };
-    InitializeDatabase();
-}, []);
+    
     
     // }
     // These function are meant to handle the press of buttons. They are just placeholders for now

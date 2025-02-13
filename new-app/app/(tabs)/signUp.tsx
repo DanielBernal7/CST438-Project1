@@ -9,37 +9,32 @@ const SignUp = () => {
 
   //database stufs
   const db = SQLite.openDatabaseSync('pokeDatabase.db');
-  const initializeDatabase = () => {
-    db.execAsync(`
+  const initializeDatabase = async() => {
+    await db.execAsync(`
       PRAGMA journal_mode = WAL;
             PRAGMA foreign_keys = ON;
             CREATE TABLE IF NOT EXISTS users (
             id INTEGER PRIMARY KEY AUTOINCREMENT,
             username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL
-            );
+            password TEXT NOT NULL);
+            
             CREATE TABLE IF NOT EXISTS party (
-            partyid INTEGER PRIMARY KEY not null,
+            party_id INTEGER PRIMARY KEY not null,
             mon1 INTEGER,
             mon2 INTEGER,
             mon3 INTEGER,
             mon4 INTEGER,
             mon5 INTEGER,
             mon6 INTEGER,
-            FOREIGN KEY (partyid) REFERENCES users(id) ON DELETE CASCADE);
-            
+            FOREIGN KEY (party_id) REFERENCES users(id) ON DELETE CASCADE);
             `);
+            
+            // await db.execAsync(`insert into party(party_id, mon1, mon2, mon3, mon4, mon5, mon6) values (1, 6, 5, 4, 3, 2, 1);`);
   };
 
   useEffect(() => {
     initializeDatabase();
   }, []);
-  useEffect(() => {
-    const insertData = async () => {
-      await db.execAsync(`insert into party(id, mon1, mon2, mon3, mon4, mon5, mon6) values (1, 6, 5, 4, 3, 2, 1);`);
-    }
-    insertData();
-    }, []);
   const handleSignUp = () => {
     
     if (!username || !password) {
@@ -57,6 +52,10 @@ const SignUp = () => {
           INSERT INTO users (username, password) 
           VALUES ('${username}', '${password}');
         `);
+        const result db.execAsync('
+        SELECT id from users where username = '${username}'');
+        const id = result.id;
+        db.execAsync(`INSERT INTO party(id, mon1, mon2, mon3, mon4, mon5, mon6) VALUES (${id});`);
         setErrorMessage("");
         alert("sucessfully signed up!!!");
       }
