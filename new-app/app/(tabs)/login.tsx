@@ -1,6 +1,10 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from "react-native";
 import * as SQLite from "expo-sqlite"; // Using the “sync” version from your existing code
+import { useRouter } from "expo-router";
+import { push } from "expo-router/build/global-state/routing";
+
+
 
 // Login screen that checks user credentials in local DB and displays 3 starter Pokémon from PokéAPI
 export default function Login({ navigation }: { navigation: any }) {
@@ -8,6 +12,7 @@ export default function Login({ navigation }: { navigation: any }) {
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
   const [starters, setStarters] = useState<any[]>([]);
+  const router = useRouter();
 
   // Same openDatabaseSync call used in SignUp
   const db = SQLite.openDatabaseSync("pokeDatabase.db");
@@ -59,7 +64,7 @@ export default function Login({ navigation }: { navigation: any }) {
 
   // Navigate to SignUp screen
   const handleGoToSignUp = () => {
-    navigation.navigate("signUp");
+    router.push("/signUp");
   };
 
   return (
