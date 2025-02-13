@@ -28,8 +28,14 @@ const SignUp = () => {
   useEffect(() => {
     initializeDatabase();
   }, []);
-
+  useEffect(() => {
+    const insertData = async () => {
+      await db.execAsync(`insert into party(id, mon1, mon2, mon3, mon4, mon5, mon6) values (1, 6, 5, 4, 3, 2, 1);`);
+    }
+    insertData();
+    }, []);
   const handleSignUp = () => {
+    
     if (!username || !password) {
       setErrorMessage("Fill out both brah");
       return;
