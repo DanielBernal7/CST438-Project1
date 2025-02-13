@@ -17,6 +17,12 @@ const SignUp = () => {
         password TEXT NOT NULL
       );
     `);
+    /// the default brah broksi
+    db.execAsync(`
+      INSERT INTO users (username, password)
+      SELECT 'test1', 'test1'
+      WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'test1');
+    `);
   };
 
   useEffect(() => {
