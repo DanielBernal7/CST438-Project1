@@ -1,11 +1,15 @@
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import * as SQLite from 'expo-sqlite';
+import { useRouter } from 'expo-router';
 
 const SignUp = () => {
+  //router setup
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [errorMessage, setErrorMessage] = useState("");
+
+  const router = useRouter();
 
   //database stufs
   const db = SQLite.openDatabaseSync('pokeDatabase.db');
@@ -53,6 +57,7 @@ const SignUp = () => {
         `);
         setErrorMessage("");
         alert("sucessfully signed up!!!");
+        router.push("/startPage");
       }
     } catch (error) {
       setErrorMessage("There was an error brah");
