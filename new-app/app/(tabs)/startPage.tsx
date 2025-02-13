@@ -16,10 +16,15 @@ const StartPage = () => {
     useEffect(() => {
     const  InitializeDatabase = async() => {
         const db = SQLite.openDatabaseSync('pokeDatabase.db');
-        await db.execAsync(`
-            PRAGMA journal_mode = WAL;
-            CREATE TABLE IF NOT EXISTS test (id INTEGER PRIMARY KEY NOT NULL, value TEXT NOT NULL, intValue INTEGER);
-            INSERT INTO test (value, intValue) VALUES ('Hello', 100);`);
+        await db.execAsync(`CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
+        );
+        CREATE TABLE IF NOT EXISTS party (
+        partyid INTEGER NOT NULL, mon1 INTEGER, mon2 INTEGER, mon3 INTEGER, mon4 INTEGER, mon5 INTEGER, mon6 INTEGER);    
+        `
+        );
             
     };
     InitializeDatabase();
@@ -40,6 +45,7 @@ const StartPage = () => {
     };
 
     const handleMyTeamPress = () => {
+        router.push('/team')
         console.log('My Team pressed');
         // I intent to add navigation here later, this is just a placeholder
     };

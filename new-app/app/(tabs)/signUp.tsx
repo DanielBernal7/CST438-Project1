@@ -17,13 +17,25 @@ const SignUp = () => {
         password TEXT NOT NULL
       );
     `);
+    /// the default brah broksi
+    db.execAsync(`
+      INSERT INTO users (username, password)
+      SELECT 'test1', 'test1'
+      WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'test1');
+    `);
   };
 
   useEffect(() => {
     initializeDatabase();
   }, []);
-
+  useEffect(() => {
+    const insertData = async () => {
+      await db.execAsync(`insert into party(id, mon1, mon2, mon3, mon4, mon5, mon6) values (1, 6, 5, 4, 3, 2, 1);`);
+    }
+    insertData();
+    }, []);
   const handleSignUp = () => {
+    
     if (!username || !password) {
       setErrorMessage("Fill out both brah");
       return;
