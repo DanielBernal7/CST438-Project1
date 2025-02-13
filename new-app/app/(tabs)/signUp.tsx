@@ -11,24 +11,18 @@ const SignUp = () => {
   const db = SQLite.openDatabaseSync('pokeDatabase.db');
   const initializeDatabase = () => {
     db.execAsync(`
-      PRAGMA journal_mode = WAL;
-            PRAGMA foreign_keys = ON;
-            CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL
-            );
-            CREATE TABLE IF NOT EXISTS party (
-            partyid INTEGER PRIMARY KEY not null,
-            mon1 INTEGER,
-            mon2 INTEGER,
-            mon3 INTEGER,
-            mon4 INTEGER,
-            mon5 INTEGER,
-            mon6 INTEGER,
-            FOREIGN KEY (partyid) REFERENCES users(id) ON DELETE CASCADE);
-            
-            `);
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
+      );
+    `);
+    /// the default brah broksi
+    db.execAsync(`
+      INSERT INTO users (username, password)
+      SELECT 'test1', 'test1'
+      WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'test1');
+    `);
   };
 
   useEffect(() => {
