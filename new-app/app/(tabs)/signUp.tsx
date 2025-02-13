@@ -9,32 +9,31 @@ const SignUp = () => {
 
   //database stufs
   const db = SQLite.openDatabaseSync('pokeDatabase.db');
-  const initializeDatabase = async() => {
-    await db.execAsync(`
-      PRAGMA journal_mode = WAL;
-            PRAGMA foreign_keys = ON;
-            CREATE TABLE IF NOT EXISTS users (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            username TEXT UNIQUE NOT NULL,
-            password TEXT NOT NULL);
-            
-            CREATE TABLE IF NOT EXISTS party (
-            party_id INTEGER PRIMARY KEY not null,
-            mon1 INTEGER,
-            mon2 INTEGER,
-            mon3 INTEGER,
-            mon4 INTEGER,
-            mon5 INTEGER,
-            mon6 INTEGER,
-            FOREIGN KEY (party_id) REFERENCES users(id) ON DELETE CASCADE);
-            `);
-            
-            // await db.execAsync(`insert into party(party_id, mon1, mon2, mon3, mon4, mon5, mon6) values (1, 6, 5, 4, 3, 2, 1);`);
+  const initializeDatabase = () => {
+    db.execAsync(`
+      CREATE TABLE IF NOT EXISTS users (
+        id INTEGER PRIMARY KEY AUTOINCREMENT,
+        username TEXT UNIQUE NOT NULL,
+        password TEXT NOT NULL
+      );
+    `);
+    /// the default brah broksi
+    db.execAsync(`
+      INSERT INTO users (username, password)
+      SELECT 'test1', 'test1'
+      WHERE NOT EXISTS (SELECT 1 FROM users WHERE username = 'test1');
+    `);
   };
 
   useEffect(() => {
     initializeDatabase();
   }, []);
+  useEffect(() => {
+    const insertData = async () => {
+      await db.execAsync(`insert into party(id, mon1, mon2, mon3, mon4, mon5, mon6) values (1, 6, 5, 4, 3, 2, 1);`);
+    }
+    insertData();
+    }, []);
   const handleSignUp = () => {
     
     if (!username || !password) {
@@ -52,10 +51,6 @@ const SignUp = () => {
           INSERT INTO users (username, password) 
           VALUES ('${username}', '${password}');
         `);
-        const result db.execAsync('
-        SELECT id from users where username = '${username}'');
-        const id = result.id;
-        db.execAsync(`INSERT INTO party(id, mon1, mon2, mon3, mon4, mon5, mon6) VALUES (${id});`);
         setErrorMessage("");
         alert("sucessfully signed up!!!");
       }
