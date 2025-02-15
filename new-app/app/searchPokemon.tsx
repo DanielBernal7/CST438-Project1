@@ -5,29 +5,35 @@ import { View, Text, TextInput, TouchableOpacity, Image, StyleSheet, ActivityInd
 import { useRouter } from "expo-router";
 
 const SearchPokemon = () => {
-	const [searchQuery, setSearchQuery] = useState("");
-	const [pokemon, setPokemon] = useState(null);
-	const [loading, setLoading] = useState(false);
-	const [error, setError] = useState("");
-	const router = useRouter();
+	const [searchQuery, setSearchQuery] = useState(""); //This is to store the user's search query
+	const [pokemon, setPokemon] = useState(null); // This is where the pokemon data is stroed like in other pages
+	const [loading, setLoading] = useState(false); // This is to show the loading indicator when the user is searching for a pokemon
+	const [error, setError] = useState(""); // This is to store and errors 
+	const router = useRouter(); // navigation 
 
 	const handleSearch = async () => {
+
+		//This is to check if the user has entered a search query, and if not, it will show an error message
 		if (!searchQuery.trim()) {
 			setError("Please enter a pokemon name");
 			return;
 		}
 
+		// This is to reset the state before making a new search
 		setLoading(true);
 		setError("");
 		setPokemon(null);
 
 		try {
+			//This is just using the fetch API to get the data from the pokeapi, and it is using the searchQuery as a parameter to get the specific pokemon also making it lowercase to avoid errors
 			const response = await fetch(`https://pokeapi.co/api/v2/pokemon/${searchQuery.toLowerCase()}`);
 
+			// This is to check if the response is ok, and if not, it will throw an error
 			if (!response.ok) {
 				throw new Error("Pokemon not found");
 			}
 
+			//This just stores pokemon data 
 			const data = await response.json();
 			setPokemon({
 				id: data.id,
@@ -42,10 +48,12 @@ const SearchPokemon = () => {
 		}
 	};
 
+	//navigation to the details page 
 	const handlePokemonPress = (pokemonId) => {
 		router.push(`/pokemon/${pokemonId}`);
 	};
 
+	
 	const renderPokemonTypes = (types) => {
 		const typeElements = [];
 		for (let i = 0; i < types.length; i++) {
