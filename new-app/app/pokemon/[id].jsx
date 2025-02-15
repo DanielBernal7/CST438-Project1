@@ -122,6 +122,9 @@ const PokemonDetails = () => {
 					{renderAbilities()}
 				</View>
 
+				<TouchableOpacity style={styles.addToTeam} onPress={() => alert("Added to team!")}>
+					<Text style={styles.addToTeamText}> Add pokemon to team! </Text>
+				</TouchableOpacity>
 				
 			</ScrollView>
 		</SafeAreaView>
@@ -275,6 +278,21 @@ const styles = StyleSheet.create({
 		padding: 15,
 		paddingBottom: 100,
 	},
+
+	addToTeam: {
+		backgroundColor: "#FF5D5D",
+		padding: 15,
+		borderRadius: 10,
+		alignItems: "center",
+		marginTop: 20,
+	},
+
+	addToTeamText: {
+		color: "white",
+		fontSize: 18,
+		fontWeight: "bold",
+	},
+
 });
 
 export default PokemonDetails;
