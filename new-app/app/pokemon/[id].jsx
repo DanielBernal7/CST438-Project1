@@ -213,6 +213,10 @@ const styles = StyleSheet.create({
 		color: "white",
 		fontSize: 16,
 		fontWeight: "bold",
+
+		textShadowColor: 'black',
+		textShadowOffset: {width: .5, height: 1},
+		textShadowRadius: 1,
 	},
 
 	pokemonId: {
@@ -243,6 +247,10 @@ const styles = StyleSheet.create({
 		fontWeight: "bold",
 		color: "white",
 		marginBottom: 15,
+		
+		textShadowColor: 'black',
+		textShadowOffset: {width: .5, height: 1},
+		textShadowRadius: 1,
 	},
 	physicalInfo: {
 		flexDirection: "row",
@@ -252,6 +260,10 @@ const styles = StyleSheet.create({
 	infoText: {
 		fontSize: 16,
 		color: "white",
+
+		textShadowColor: ' #3B444B',
+		textShadowOffset: {width: 1, height: 1},
+		textShadowRadius: 1,
 	},
 	statRow: {
 		flexDirection: "row",
@@ -262,6 +274,10 @@ const styles = StyleSheet.create({
 		fontSize: 14,
 		color: "white",
 		fontWeight: "500",
+
+		textShadowColor: ' #3B444B',
+		textShadowOffset: {width: 1, height: 1},
+		textShadowRadius: 1,
 	},
 	statValue: {
 		fontSize: 14,
@@ -272,6 +288,10 @@ const styles = StyleSheet.create({
 		fontSize: 16,
 		color: "white",
 		marginBottom: 8,
+
+		textShadowColor: ' #3B444B',
+		textShadowOffset: {width: 1, height: 1},
+		textShadowRadius: 1,
 	},
 
 	scrollContent: {
@@ -291,6 +311,10 @@ const styles = StyleSheet.create({
 		color: "white",
 		fontSize: 18,
 		fontWeight: "bold",
+
+		textShadowColor: ' #3B444B',
+		textShadowOffset: {width: 1, height: 1},
+		textShadowRadius: 1,
 	},
 
 });
