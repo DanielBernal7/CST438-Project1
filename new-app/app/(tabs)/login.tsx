@@ -1,8 +1,11 @@
+//@ts-nocheck
+
 import React, { useState, useEffect } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, ScrollView } from "react-native";
 import * as SQLite from "expo-sqlite"; // Using the “sync” version from your existing code
 import { useRouter } from "expo-router";
 import { push } from "expo-router/build/global-state/routing";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 
@@ -39,7 +42,7 @@ export default function Login({ navigation }: { navigation: any }) {
   };
 
   // Check user credentials from local DB
-  const handleLogin = () => {
+  const handleLogin = async () => {
     if (!username || !password) {
       setErrorMessage("Please provide both username and password");
       return;
@@ -52,6 +55,8 @@ export default function Login({ navigation }: { navigation: any }) {
       );
       if (result && result.length > 0) {
         setErrorMessage("");
+        const user = result[0];
+        await AsyncStorage.setItem("user", JSON.stringify({ id: user.id, username: user.username }));
         alert("Login successful!");
         router.push("/startPage");
       } else {

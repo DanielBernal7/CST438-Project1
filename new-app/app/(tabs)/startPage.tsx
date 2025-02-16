@@ -3,6 +3,9 @@ import React, { useEffect } from 'react';
 import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
 import { useRouter } from 'expo-router';
 import * as SQLite from 'expo-sqlite';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useAuth } from '../useAuth';
+
 
 // export const UserContext = React.createContext(null);
 
@@ -10,6 +13,15 @@ import * as SQLite from 'expo-sqlite';
 //Here we are actually craeting the StartPage component
 const StartPage = () => {
     const router = useRouter();
+
+    useAuth(true);
+
+    const fetchUser = async () => {
+        const userData = await AsyncStorage.getItem('user');
+        console.log("Hello", userData);
+    };
+
+    fetchUser();
 
     //This is a function that is meant to initialize the database. It is just a placeholder for now
     
