@@ -39,6 +39,7 @@ const StartPage = () => {
     };
 
     const handleSearchPress = () => {
+        router.push('/searchPokemon');
         console.log('Search pressed');
         // I intent to add navigation here later, this is just a placeholder
     };
