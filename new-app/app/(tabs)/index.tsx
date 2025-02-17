@@ -1,74 +1,131 @@
-import { Image, StyleSheet, Platform } from 'react-native';
 
-import { HelloWave } from '@/components/HelloWave';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
+import React, { useEffect } from 'react';
+import { View, Text, StyleSheet, TouchableOpacity, ImageBackground } from 'react-native';
+import { useRouter } from 'expo-router';
+import * as SQLite from 'expo-sqlite';
 
-export default function HomeScreen() {
-  return (
-    <ParallaxScrollView
-      headerBackgroundColor={{ light: '#A1CEDC', dark: '#1D3D47' }}
-      headerImage={
-        <Image
-          source={require('@/assets/images/partial-react-logo.png')}
-          style={styles.reactLogo}
-        />
-      }>
-      <ThemedView style={styles.titleContainer}>
-        <ThemedText type="title">Welcome!</ThemedText>
-        <HelloWave />
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 1: Try it</ThemedText>
-        <ThemedText>
-          Edit <ThemedText type="defaultSemiBold">app/(tabs)/index.tsx</ThemedText> to see changes.
-          Press{' '}
-          <ThemedText type="defaultSemiBold">
-            {Platform.select({
-              ios: 'cmd + d',
-              android: 'cmd + m',
-              web: 'F12'
-            })}
-          </ThemedText>{' '}
-          to open developer tools.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 2: Explore</ThemedText>
-        <ThemedText>
-          Tap the Explore tab to learn more about what's included in this starter app.
-        </ThemedText>
-      </ThemedView>
-      <ThemedView style={styles.stepContainer}>
-        <ThemedText type="subtitle">Step 3: Get a fresh start</ThemedText>
-        <ThemedText>
-          When you're ready, run{' '}
-          <ThemedText type="defaultSemiBold">npm run reset-project</ThemedText> to get a fresh{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> directory. This will move the current{' '}
-          <ThemedText type="defaultSemiBold">app</ThemedText> to{' '}
-          <ThemedText type="defaultSemiBold">app-example</ThemedText>.
-        </ThemedText>
-      </ThemedView>
-    </ParallaxScrollView>
-  );
-}
+// export const UserContext = React.createContext(null);
 
+
+//Here we are actually craeting the StartPage component
+const StartPage = () => {
+    const router = useRouter();
+
+    //This is a function that is meant to initialize the database. It is just a placeholder for now
+    
+    
+    
+    // }
+    // These function are meant to handle the press of buttons. They are just placeholders for now
+    const handleExplorePress = () => {
+        router.push('/explorePokemon');
+        console.log('Explore pressed');
+        // I intent to add navigation here later, this is just a placeholder
+    };
+
+    const handleSearchPress = () => {
+        router.push('/searchPokemon');
+        console.log('Search pressed');
+        // I intent to add navigation here later, this is just a placeholder
+    };
+
+    const handleMyTeamPress = () => {
+        router.push('/team')
+        console.log('My Team pressed');
+        // I intent to add navigation here later, this is just a placeholder
+    };
+
+
+	//To my knowledge, everything inside of this return() is what will show up on the page.
+    return (
+		//This is the main container for the page, it  holds everytihng. 
+        <View style={styles.container}>
+			{/* Right here is where I'm keeping the content, and it's being arranged*/}
+            <View style={styles.contentContainer}>
+                {/* This is the welcome section, this is for the welcome message */}
+                <View style={styles.welcomeSection}>
+                    <Text style={styles.title}>Welcome to Pokédex</Text>
+                    <Text style={styles.subtitle}>
+                        Your journey into the world of Pokemon begins here!
+                    </Text>
+                </View>
+
+                {/* This section here holds the three buttons  */}
+                <View style={styles.buttonSection}>
+					{/* The touchable oppoactiy is a button  */}
+                    <TouchableOpacity style={styles.button} onPress={handleExplorePress}>
+                        <Text style={styles.buttonText}>Explore Pokemon</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.button} onPress={handleSearchPress}>
+                        <Text style={styles.buttonText}>Search Pokemon</Text>
+                    </TouchableOpacity>
+
+                    <TouchableOpacity style={styles.button} onPress={handleMyTeamPress}>
+                        <Text style={styles.buttonText}>My Team</Text>
+                    </TouchableOpacity>
+                </View>
+            </View>
+        </View>
+    );
+};
+
+
+//This is just styling.
 const styles = StyleSheet.create({
-  titleContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    gap: 8,
-  },
-  stepContainer: {
-    gap: 8,
-    marginBottom: 8,
-  },
-  reactLogo: {
-    height: 178,
-    width: 290,
-    bottom: 0,
-    left: 0,
-    position: 'absolute',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#f5f5f5',
+    },
+    contentContainer: {
+        flex: 1,
+        padding: 20,
+        justifyContent: 'center',
+    },
+    welcomeSection: {
+        alignItems: 'center',
+        marginBottom: 50,
+    },
+    title: {
+        fontSize: 32,
+        fontWeight: 'bold',
+        color: '#2E3057',
+        marginBottom: 10,
+        textAlign: 'center',
+    },
+    subtitle: {
+        fontSize: 18,
+        color: '#666',
+        textAlign: 'center',
+        paddingHorizontal: 20,
+    },
+    buttonSection: {
+        gap: 15, 
+    },
+    button: {
+        backgroundColor: '#FF5D5D',
+        paddingVertical: 15,
+        paddingHorizontal: 30,
+        borderRadius: 10,
+        borderColor: 'black',
+        shadowColor: '#000',
+        borderWidth: 1.5,
+        shadowOffset: {
+            width: 0,
+            height: 2,
+        },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+    },
+    buttonText: {
+        color: 'white',
+        fontSize: 18,
+        fontWeight: '600',
+        textShadowColor: 'black',
+        textShadowOffset:{width: 2, height: 2},
+        textAlign: 'center',
+    },
 });
+
+export default StartPage;
