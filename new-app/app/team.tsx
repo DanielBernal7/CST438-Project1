@@ -8,15 +8,6 @@ interface Pokemon {
 	name: string;
 	url: string;
 }
-interface party {
-    party_id: number;
-    mon1: number;
-    mon2: number;
-    mon3: number;
-    mon4: number;
-    mon5: number;
-    mon6: number;
-}
 
 //Another interface needed for typescript to stop complaining
 interface PokemonDetail {
@@ -33,26 +24,15 @@ interface PokemonDetail {
 }
 
 const team = () => {
-    const db = SQLite.openDatabaseSync('pokeDatabase.db');
     
     
     
     
     const router = useRouter();
-    const [partyList, setPartyList] = useState<party[]>([]);
     const [pokemonList, setPokemonList] = useState<PokemonDetail[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     
     
-    useEffect(() => {
-        const fetchUsers =async () => {
-            
-            const result = await db.getAllAsync("select * from party;");
-            console.log(result);
-            setPartyList(result as party[]);
-        };
-        fetchUsers();
-    }, []);
     useEffect(() => {
         console.log(pokemonList);
             const getPokemonData = async () => {
@@ -61,20 +41,12 @@ const team = () => {
                     const data = await response.json();
                     const allPokemon = data.results;
                     const selectedPokemon = [];
-                    // const usedIndices = new Set();
-                    // const db = SQLite.openDatabaseSync('pokeDatabase.db');
                     
                     
-                    
-                    // console.log(result);
-                    // setPokemonList(result);
-                    const party = partyList[0];
-                    // for (const party of partyList) {
-                        const pokemonIds = [party.mon1, party.mon2, party.mon3, party.mon4, party.mon5, party.mon6];
-                        for (const id of pokemonIds) {
-                            if (id) {
-                                console.log(id);
-                                const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${id}`);
+                        for (let i = 1; i <= 6; i++) {
+                            
+                                
+                                const pokemonResponse = await fetch(`https://pokeapi.co/api/v2/pokemon/${i}`);
                                 const pokemonData = await pokemonResponse.json();
                                 selectedPokemon.push({
                                     id: pokemonData.id,
@@ -84,9 +56,8 @@ const team = () => {
                                         front_default: pokemonData.sprites.front_default
                                     }
                                 });
-                            }
+                            
                         }
-                    // }
                     
                     setPokemonList(selectedPokemon);
                     setIsLoading(false);
@@ -96,7 +67,7 @@ const team = () => {
                 }
             };
             getPokemonData();
-        }, [partyList]);
+        }, []);
     
         
     const renderPokemonList = () => {
@@ -112,7 +83,7 @@ const team = () => {
             }
             return elements;
         };
-        const handlePokemonPress = (pokemonId) => {
+        const handlePokemonPress = (pokemonId: number) => {
             //This will navigate to the Pokemon Details page, and also allows for the pokemonId to be passed as a parameter
             router.push(`/pokemon/${pokemonId}`);
         };
